@@ -1,4 +1,5 @@
 from collections import deque
+from threading import Lock
 import logging
 #logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger()
@@ -15,16 +16,23 @@ class PPP:
 		self.errs = deque()
 		self.dts = deque()
 
+		self.wlock = Lock()
+
 	def set_graph(self, graph):
 		self.graph = graph
 
 	def redraw(self):
-		args = [self.tss, self.errs, 'ro-', self.tss, self.dts, 'b-']
+		self.wlock.acquire()
 
 		self.graph.clear()
+		args = [self.tss, self.errs, 'ro-', self.tss, self.dts, 'b-']
 		self.graph.plot(*args)
 
+		self.wlock.release()
+
 	def add_result(self, res):
+		self.wlock.acquire()
+
                 self.ress.append(res)
                 self.tss.append(res.ts)
                 self.errs.append(res.exit_code)
@@ -39,10 +47,12 @@ class PPP:
 
 				if dt <= self.period:
 					# enough pruning
-					return
+					break
 
 				self.ress.popleft()
 				self.tss.popleft()
 				self.errs.popleft()
 				self.dts.popleft()
+
+		self.wlock.release()
 
