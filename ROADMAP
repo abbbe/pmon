@@ -8,3 +8,6 @@ Version 0.2
 * Refactor: create ProbeResStore
 * Implement ProbeResStore: Save data, load historical data
 * Make periods and commands configurable via CLI
+
+Version X:
+* Do something about error codes representation
