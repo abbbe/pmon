@@ -1,5 +1,5 @@
 Version 0.1
-* Remove stars from the graph, just plot with lines
+* Eliminate race condition
 * Convert x-axis to date/time
 * Refactor: transform ProbeSet into ProbeController, create ProbeResStore
 * Write regression tests

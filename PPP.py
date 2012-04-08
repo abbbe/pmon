@@ -19,7 +19,7 @@ class PPP:
 		self.graph = graph
 
 	def redraw(self):
-		args = [self.tss, self.errs, 'ro-', self.tss, self.dts, 'b*-']
+		args = [self.tss, self.errs, 'ro-', self.tss, self.dts, 'b-']
 
 		self.graph.clear()
 		self.graph.plot(*args)
