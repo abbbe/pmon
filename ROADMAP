@@ -11,3 +11,4 @@ Version 0.2
 
 Version X:
 * Do something about error codes representation
+* Stop gracefully on console interrupt
