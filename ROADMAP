@@ -1,5 +1,4 @@
 Version 0.1
-* Eliminate race condition
 * Convert x-axis to date/time
 * Refactor: transform ProbeSet into ProbeController, create ProbeResStore
 * Write regression tests
