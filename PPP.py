@@ -1,8 +1,9 @@
-from collections import deque
-from threading import Lock
 import logging
 #logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger()
+
+from collections import deque
+from threading import Lock
 
 class PPP:
 	def __init__(self, params, graph):
