@@ -1,6 +1,9 @@
 from collections import deque
 from threading import Lock
 import logging
+from datetime import datetime
+import matplotlib.dates as md
+
 #logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger()
 
@@ -34,7 +37,8 @@ class PPP:
 		self.wlock.acquire()
 
                 self.ress.append(res)
-                self.tss.append(res.ts)
+                #self.tss.append(md.date2num(datetime.fromtimestamp(res.ts)))
+                self.tss.append(datetime.fromtimestamp(res.ts))
                 self.errs.append(res.exit_code)
                 self.dts.append(res.get_dt())
 

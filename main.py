@@ -1,4 +1,5 @@
 from threading import Timer
+import matplotlib.dates as md
 from subprocess import check_output, CalledProcessError
 import time, string
 import matplotlib.pyplot as pyplot
@@ -18,9 +19,13 @@ class ResGraph:
 	Graph aggregating info for all probes
 	'''
 	def __init__(self, probes):
-		self.ppp_params = [PPPParam(5), PPPParam(60), PPPParam(600), PPPParam()]
+		#self.ppp_params = [PPPParam(5), PPPParam(60), PPPParam(600), PPPParam()]
+		self.ppp_params = [PPPParam(600)]
 
 		self.fig = pyplot.figure()
+
+                #pyplot.xticks(rotation=25)
+		#pyplot.subplots_adjust(bottom=0.1)
 
 		## create a rescollector for each probe.
 		## rescollectors creates subplots in
@@ -33,20 +38,24 @@ class ResGraph:
 			rc = ProbeResCollector(self.fig, nprobes, i, self.ppp_params)
 			self.rcs[probe] = rc
 
+		#xfmt = md.DateFormatter('%Y-%m-%d %H:%M:%S')
+		#ax.xaxis.set_major_formatter(xfmt)
+
+		self.nres = 0
 		self.fig.show()
 
 		Timer(0.1, self.redraw).start()
 
 	def add_result(self, probe, res):
+		self.nres = self.nres + 1
 		for _probe, rc in self.rcs.items():
 			if _probe is probe:
 				rc.add_result(res)
 
 	def redraw(self):
-		for _probe, rc in self.rcs.items():
-			rc.redraw()
-
-		self.fig.canvas.draw()
+		if self.nres >= 2:
+			for _probe, rc in self.rcs.items(): rc.redraw()
+			self.fig.canvas.draw()
 
 		Timer(0.1, self.redraw).start()
 
@@ -59,14 +68,23 @@ class ProbeResCollector:
 	def __init__(self, fig, nrows, i, ppp_params):
 		self.ppps = []
 
+		#xfmt = md.DateFormatter('%Y-%m-%d %H:%M:%S')
+		xfmt = md.DateFormatter('%M:%S')
+
+		sharex = None
 		for j in range(len(ppp_params)):
 			ppp_param = ppp_params[j]
 			n = i * len(ppp_params) + j + 1
 
-			g = fig.add_subplot(nrows, len(ppp_params), n)
+			g = fig.add_subplot(nrows, len(ppp_params), n, sharex=sharex)
+			g.xaxis.set_major_formatter(xfmt)
+			#ax = pyplot.gca()
+			#ax.xaxis.set_major_formatter(xfmt)
 
 			ppp = PPP(ppp_param, g)
 			self.ppps.append(ppp)
+
+			if sharex == None: sharex = g
 
 	def add_result(self, res):
 		for ppp in self.ppps:
@@ -142,6 +160,7 @@ logger.debug("SQLAlchemy initialized")
 
 probe1 = Probe('ping', "ping -c 1 localhost")
 probe2 = Probe('curl', "curl -s http://localhost/")
+#probes = [probe1]
 probes = [probe1, probe2]
 
 for probe in probes:
