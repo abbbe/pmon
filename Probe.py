@@ -7,7 +7,6 @@ import logging
 #logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger()
 
-
 class Probe(Base):
         __tablename__ = 'probe'
 

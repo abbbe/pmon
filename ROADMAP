@@ -1,10 +1,8 @@
 Version 0.1
 * Convert x-axis to date/time
-* Refactor: transform ProbeSet into ProbeController, create ProbeResStore
 * Write regression tests
 
 Version 0.2
-* Refactor: create ProbeResStore
 * Implement ProbeResStore: Save data, load historical data
 * Make periods and commands configurable via CLI
 
