@@ -1,0 +1,7 @@
+Primary purpose of this tool is to perform lightweight, easily customizable
+quality control during pentest, such as connectivity monitoring.
+
+This tool runs specified set of commands, measures the time it takes
+to execute a command, and captures its exit code. This is done in a loop,
+the results are stored in the database, and displayed on the graphs at
+different scales.
