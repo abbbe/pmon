@@ -4,6 +4,7 @@ logger = logging.getLogger()
 
 from collections import deque
 from threading import Lock
+from datetime import datetime
 
 class PPP:
 	def __init__(self, params, graph):
@@ -35,7 +36,7 @@ class PPP:
 		self.wlock.acquire()
 
                 self.ress.append(res)
-                self.tss.append(res.ts)
+                self.tss.append(datetime.fromtimestamp(res.ts))
                 self.errs.append(res.exit_code)
                 self.dts.append(res.get_dt())
 
